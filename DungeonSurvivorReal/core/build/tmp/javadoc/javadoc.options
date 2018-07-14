@@ -1,0 +1,7 @@
+-classpath 'D:\\Java Storage\\DungeonSurvivorReal\\core\\build\\classes\\java\\main;D:\\Java Storage\\DungeonSurvivorReal\\core\\build\\resources\\main;C:\\Users\\Rwiky\\.gradle\\caches\\modules-2\\files-2.1\\com.badlogicgames.gdx\\gdx\\1.9.8\\a35a0076fbce873f9c2d5a1a1c8066244231bb3c\\gdx-1.9.8.jar'
+-d 'D:\\Java Storage\\DungeonSurvivorReal\\core\\build\\docs\\javadoc'
+-doctitle 'core 1.0 API'
+-quiet 
+-windowtitle 'core 1.0 API'
+'D:\\Java Storage\\DungeonSurvivorReal\\core\\src\\com\\mygdx\\game\\DungeonSurvivor.java'
+'D:\\Java Storage\\DungeonSurvivorReal\\core\\src\\com\\mygdx\\game\\IntroScreen.java'
