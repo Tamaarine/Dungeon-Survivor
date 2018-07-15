@@ -16,9 +16,9 @@ public class Orc extends Monster
     TextureRegion left;
     TextureRegion right;
     
-    public Orc(Rectangle givenposition)
+    public Orc(Rectangle givenposition,int givenVelocity)
     {
-        super(givenposition);
+        super(givenposition,givenVelocity);
         
         monsterpicture=new Texture(Gdx.files.internal("monster.png"));
         

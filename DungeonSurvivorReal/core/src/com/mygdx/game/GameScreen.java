@@ -12,16 +12,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
-
     //Required varaible
-    MainCharacter princess;
     DungeonSurvivor game;
     SpriteBatch batch;
     OrthographicCamera camera;
-    Orc orcmonster;
     BitmapFont font;
     ShapeRenderer shape;
     int counter;
+    
+    //Characters
+    MainCharacter princess;
+    Orc orcmonster[];
     
     //Textures
     private Texture bg1;
@@ -38,7 +39,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,800,800);
         counter=0;
-        orcmonster=new Orc(new Rectangle(0,0,64,64));
+        orcmonster=new Orc[4];
         shape=new ShapeRenderer();
         font=new BitmapFont();
         
@@ -48,6 +49,11 @@ public class GameScreen implements Screen {
         
         hitbox=false;
         fps=false;
+        
+        orcmonster[0]=new Orc(new Rectangle(50,34,64,64),35);
+        orcmonster[1]=new Orc(new Rectangle(150,34,64,64),80);
+        orcmonster[2]=new Orc(new Rectangle(250,34,64,64),60);
+        orcmonster[3]=new Orc(new Rectangle(350,34,64,64),90);
         
     }
     
@@ -178,11 +184,13 @@ public class GameScreen implements Screen {
             batch.draw(princess.right,princess.position.x,princess.position.y);
         }
         
+        for(Orc oneorc:orcmonster)
+        {
+            oneorc.move(princess.position);
+            batch.draw(oneorc.down,oneorc.getPosition().x,oneorc.getPosition().y);
+        }
         
-        orcmonster.move(200/60f);
-        batch.draw(orcmonster.up,orcmonster.getPosition().x,orcmonster.getPosition().y);
-        
-        if(princess.position.overlaps(orcmonster.getPosition()))
+        if(princess.position.overlaps(orcmonster[0].getPosition()))
         {
             System.out.println("BOOPM THE PRINCESS GETS MURDERED");
         }

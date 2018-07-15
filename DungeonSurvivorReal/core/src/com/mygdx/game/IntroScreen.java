@@ -109,7 +109,7 @@ public class IntroScreen implements Screen
             
         }
         
-        Orc orc=new Orc(new Rectangle(0,0,64,64));
+        //Orc orc=new Orc(new Rectangle(0,0,64,64));
         MainCharacter prince=new MainCharacter("Charaa",0,0);
         batch.draw(prince.down,0,0,128,128);
         
