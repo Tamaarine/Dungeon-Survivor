@@ -7,11 +7,13 @@ public class Monster
 {
     private Rectangle position;
     private int health;
+    private PathFindingSystem pathfinding;
     
-    public Monster(Rectangle givenposition)
+    public Monster(Rectangle givenPosition,int givenVelocity)
     {
-        position=givenposition;
+        position=givenPosition;
         health=100;
+        pathfinding=new PathFindingSystem(givenPosition,givenVelocity);
     }
     
     public int getHealth()
@@ -33,6 +35,11 @@ public class Monster
     {
         position.x=givenx;
         position.y=giveny;
+    }
+    
+    public void move(Rectangle targetlocation)
+    {
+        pathfinding.getClose(targetlocation);
     }
             
     
