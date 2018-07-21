@@ -15,12 +15,12 @@ public class MainCharacter
     Rectangle position;
     
     //Private instance fields
-    private int health;
+    private HealthBar health;
     private Texture characterTexture;
     
     public MainCharacter(String gender,int startingx,int startingy)
     {
-        health=100;
+        health=new HealthBar(100);
         
         characterTexture=new Texture(Gdx.files.internal("princess.png"));
         up=new TextureRegion(characterTexture,0,0,64,64);
@@ -37,15 +37,24 @@ public class MainCharacter
         
     }
     
-    public int getHealth()
+    public void setHealth(int givenHealth)
     {
-        return health;
+        health.setHealth(givenHealth);
     }
     
-    public void setHealth(int givenhealth)
+    public void displayHealth()
     {
-        health=givenhealth;
+        health.displayHealth();
     }
     
+    public void takeDamage(float damageOverFrame)
+    {
+        health.setHealth(health.getHealth()-damageOverFrame);
+    }
+    
+    public float getHealth()
+    {
+        return health.getHealth();
+    }
     
 }

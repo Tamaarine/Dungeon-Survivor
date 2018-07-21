@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Timer;
 
 public class GameScreen implements Screen {
     //Required varaible
@@ -18,7 +20,11 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     BitmapFont font;
     ShapeRenderer shape;
+    
+    //Counters
     int counter;
+    int framePast;
+    int framerate;
     
     //Characters
     MainCharacter princess;
@@ -32,6 +38,9 @@ public class GameScreen implements Screen {
     private boolean hitbox;
     private boolean fps;
     
+    //Orc frame time counter
+    float forCorrectDrawing;
+    
     public GameScreen(DungeonSurvivor game) {
         this.game = game;
         princess = new MainCharacter("Chara",0,0);
@@ -41,7 +50,10 @@ public class GameScreen implements Screen {
         counter=0;
         orcmonster=new Orc[4];
         shape=new ShapeRenderer();
-        font=new BitmapFont();
+        font=new BitmapFont(Gdx.files.internal("Font/verdana72.fnt"));
+        framePast=28;
+        framerate=(int)(1/Gdx.graphics.getDeltaTime());
+        forCorrectDrawing=0;
         
         //Instantiating textures
         bg1=new Texture(Gdx.files.internal("Image/bg1.png"));
@@ -55,6 +67,7 @@ public class GameScreen implements Screen {
         orcmonster[2]=new Orc(new Rectangle(250,34,64,64),60);
         orcmonster[3]=new Orc(new Rectangle(350,34,64,64),90);
         
+        
     }
     
     @Override
@@ -66,12 +79,15 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) 
     {
-        Gdx.gl.glClearColor(0, 0,0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0, 0,0.2f, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         //Getting the delta time
         float dealtatime=Gdx.graphics.getDeltaTime();
-        int fpscount=(int)(1/dealtatime);
+        forCorrectDrawing+=dealtatime;
+        
+        //This means that a frame have pasted
+        framePast=framePast+1;
         
         //Updating the camera
         camera.update();
@@ -186,19 +202,45 @@ public class GameScreen implements Screen {
         
         for(Orc oneorc:orcmonster)
         {
-            oneorc.move(princess.position);
-            batch.draw(oneorc.down,oneorc.getPosition().x,oneorc.getPosition().y);
+            TextureRegion currentKeyFrameUp=oneorc.getWalkAniUp().getKeyFrame(forCorrectDrawing,true);
+            TextureRegion currentKeyFrameDown=oneorc.getWalkAniDown().getKeyFrame(forCorrectDrawing,true);
+            
+            //This means that the orc is going up thus we draw the animation going up
+            if(oneorc.getPathFinding().getIntDirection()==0)
+            {
+                oneorc.move(princess.position);
+                batch.draw(currentKeyFrameUp,oneorc.getPosition().x,oneorc.getPosition().y);
+            }
+            else
+            {
+                oneorc.move(princess.position);
+                batch.draw(currentKeyFrameDown,oneorc.getPosition().x,oneorc.getPosition().y);
+            }
+            
         }
         
         if(princess.position.overlaps(orcmonster[0].getPosition()))
         {
             System.out.println("BOOPM THE PRINCESS GETS MURDERED");
+            princess.takeDamage(dealtatime*5);
         }
         
-        if(fps)
+        //Drawing out the frame rate here, and it repeats every 30 frame or half a second updating the frame rate
+        if(framePast==29)
         {
-            font.draw(batch,""+fpscount,0,800);
+            framePast=framePast-59;
+            framerate=(int)(1/dealtatime);
+            font.getData().setScale(0.9f);
+            font.draw(batch, ""+framerate, 500, 800);
+            
         }
+        //This means that we aren't updating the frame rate yet therefore we just draw the one we currently have in stored
+        else
+        {
+            font.draw(batch, ""+framerate,500, 800);
+        }
+        
+        
         batch.end();
         
         shape.begin(ShapeRenderer.ShapeType.Line);
@@ -206,12 +248,29 @@ public class GameScreen implements Screen {
         if(hitbox)
         {
             shape.rect(princess.position.x+18.5f,princess.position.y,princess.position.width,princess.position.height);
+            
+            for(Orc oneorc:orcmonster)
+            {
+                shape.rect(oneorc.getPosition().x, oneorc.getPosition().y, oneorc.getPosition().width, oneorc.getPosition().height);
+            }
         }
-        
         
         shape.end();
         
+        princess.displayHealth();
         
+        if(Gdx.input.isKeyJustPressed(Input.Keys.Z))
+        {
+            if(!(princess.getHealth()<0))
+            {
+                princess.takeDamage(dealtatime*5);
+            }
+            
+        }
+        else if(Gdx.input.isKeyJustPressed(Input.Keys.X))
+        {
+            System.out.println("X is pressed");
+        }
     }
     
     @Override

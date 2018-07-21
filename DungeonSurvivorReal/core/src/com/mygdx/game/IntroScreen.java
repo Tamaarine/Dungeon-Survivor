@@ -33,6 +33,7 @@ public class IntroScreen implements Screen
     private boolean moveon;
     private boolean quitgame;
     
+    
     public IntroScreen(DungeonSurvivor game)
     {
         this.game=game;
@@ -82,7 +83,7 @@ public class IntroScreen implements Screen
         //Drawings goes between these two lines
         batch.draw(intro,0,0);
         batch.draw(startpicture,0,1000);
-       
+        
         if((Gdx.input.getX()>305&&Gdx.input.getX()<305+190)&&(Gdx.input.getY()>375&&Gdx.input.getY()<375+49)&&Gdx.input.justTouched())
         {
             batch.draw(start[1],800/2-190/2,800/2-49/2);

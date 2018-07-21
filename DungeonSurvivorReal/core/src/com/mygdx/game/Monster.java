@@ -41,6 +41,11 @@ public class Monster
     {
         pathfinding.getClose(targetlocation);
     }
+    
+    public PathFindingSystem getPathFinding()
+    {
+        return pathfinding;
+    }
             
     
 }
