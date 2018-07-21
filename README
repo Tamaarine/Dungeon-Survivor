@@ -10,3 +10,8 @@ Update Log
 -Finished uploading to GitHub (Will continue to update it as I work on the project)
 -So far the game only have a moveable character
 -Added in monsters that will chase after the player at a given unit per second speed very amusing to see it running
+7/21/18
+-Made monsters chasing after the player have different walking animations going up or down
+-Added a very very primitive health bar that declines as the player touches the green orc, and you can also hurt yourself by pressing Z
+button
+-Completed the frame rate counter on the right side of the game
