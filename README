@@ -15,3 +15,10 @@ Update Log
 -Added a very very primitive health bar that declines as the player touches the green orc, and you can also hurt yourself by pressing Z
 button
 -Completed the frame rate counter on the right side of the game
+8/5/18
+-Wow been two weeks since I have updated
+-Added in a background system using tile blocks from png
+-Z,X,C button working for random stuff for now
+-Z decreases your health
+-X replenishes your health
+-C respawn 4 orcs at random location
